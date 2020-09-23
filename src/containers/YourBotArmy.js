@@ -1,15 +1,20 @@
 import React, { Component } from "react";
+import BotCard from '../components/BotCard'
 
 class YourBotArmy extends Component {
-  //your bot army code here...
+  // state={
+  //   selected: this.props.selectedBot
+  // }
 
   render() {
+    console.log({selected: this.props.selectedBot})
+    // if (!this.props.selectedBot) return null
+    // console.log(this.state.selected.type)
     return (
       <div className="ui segment inverted olive bot-army">
         <div className="ui five column grid">
           <div className="row bot-army-row">
-            {/*...and here...*/}
-            Your Bot Army
+               {this.props.selectedBot&& this.props.selectedBot.forEach(b=> <BotCard bot={b} />)}
           </div>
         </div>
       </div>
