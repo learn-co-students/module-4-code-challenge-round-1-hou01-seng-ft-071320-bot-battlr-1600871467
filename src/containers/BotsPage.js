@@ -11,17 +11,8 @@ class BotsPage extends Component {
     fetch('http://localhost:6001/bots')
     .then(res=>res.json())
     .then(bots=>{
-      var botsGroup = []
-      var botsSubGroup = []
-      bots.forEach(b => {
-        botsSubGroup.push(b)
-        if (botsSubGroup.length === 4) {
-          botsSubGroup = []
-          botsGroup.push(botsSubGroup)
-        }
-      })
       this.setState({
-        data: botsGroup
+        data: bots
         })
       })
   }
@@ -36,7 +27,7 @@ class BotsPage extends Component {
     }
     
   }
-  handleDelete=(selectedBot)=>{
+  handleDelete=(e, selectedBot)=>{
     fetch(`http://localhost:6001/bots/${selectedBot.id}`,
     {
       method: 'DELETE',
@@ -46,17 +37,8 @@ class BotsPage extends Component {
     .then(res=>res.json())
     .then(()=>{
       var filteredBots = this.state.data.filter(b => b.id !== selectedBot.id)
-      var botsGroup = []
-      var botsSubGroup = []
-      filteredBots.forEach(b => {
-        botsSubGroup.push(b)
-        if (botsSubGroup.length === 4) {
-          botsSubGroup = []
-          botsGroup.push(botsSubGroup)
-        }
-      })
       this.setState({
-        data: botsGroup
+        data: filteredBots
         })
       })
   }
@@ -69,9 +51,8 @@ class BotsPage extends Component {
 
   render() {
     return <div>
-      <YourBotArmy handleRemove={this.handleRemove} selectedBot={this.state.selected} handleClick={this.handleClick}/>
-      {this.state.data.map(botsGroup=>
-      <BotCollection bots={botsGroup} handleClick={this.handleClick} handleDelete={this.handleDelete}/>)}
+      <YourBotArmy handleRemove={this.handleRemove} selectedBot={this.state.selected} handleClick={this.handleClick} handleDelete={this.handleDelete}/>
+      <BotCollection bots={this.state.data} handleClick={this.handleClick} handleDelete={this.handleDelete}/>)
       </div>;
   }
 }
