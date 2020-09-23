@@ -27,7 +27,7 @@ class BotsPage extends Component {
     }
     
   }
-  handleDelete=(e, selectedBot)=>{
+  handleDelete=(selectedBot)=>{
     fetch(`http://localhost:6001/bots/${selectedBot.id}`,
     {
       method: 'DELETE',
