@@ -14,7 +14,7 @@ class YourBotArmy extends Component {
       <div className="ui segment inverted olive bot-army">
         <div className="ui five column grid">
           <div className="row bot-army-row">
-               {this.props.selectedBot&& this.props.selectedBot.forEach(b=> <BotCard bot={b} />)}
+               {this.props.selectedBot&& this.props.selectedBot.map(b=> <BotCard handleRemove={this.props.handleRemove} bot={b} />)}
           </div>
         </div>
       </div>

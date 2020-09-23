@@ -61,11 +61,17 @@ class BotsPage extends Component {
       })
   }
 
+  handleRemove = (botId) => {
+    this.setState({
+      selected: this.state.selected.filter(s => s.id != botId)
+    })
+  }
+
   render() {
     return <div>
+      <YourBotArmy handleRemove={this.handleRemove} selectedBot={this.state.selected} handleClick={this.handleClick}/>
       {this.state.data.map(botsGroup=>
       <BotCollection bots={botsGroup} handleClick={this.handleClick} handleDelete={this.handleDelete}/>)}
-      <YourBotArmy selectedBot={this.state.selected} handleClick={this.handleClick}/>
       </div>;
   }
 }
