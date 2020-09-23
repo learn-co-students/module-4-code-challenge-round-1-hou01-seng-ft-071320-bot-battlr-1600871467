@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import BotCard from '../components/BotCard'
 
 class YourBotArmy extends Component {
-  //your bot army code here...
+  
+  handleClick = (bot) => {
+    console.log('bye')
+  }
 
   render() {
     let bots = this.props.botArmy
@@ -15,6 +18,7 @@ class YourBotArmy extends Component {
             bot={bot}
             cardAction={this.props.cardAction}
             junkingBot={this.props.junkingBot}
+            handleClick={this.handleClick}
           />)}
             Your Bot Army
           </div>
