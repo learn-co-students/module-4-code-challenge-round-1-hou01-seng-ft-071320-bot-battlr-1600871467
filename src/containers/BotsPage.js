@@ -5,7 +5,8 @@ import YourBotArmy from './YourBotArmy'
 class BotsPage extends Component {
   state={
     data: [],
-    selected: []
+    selectedBot: null,
+    botArmy: []
   }
   componentDidMount(){
     fetch('http://localhost:6001/bots')
@@ -17,17 +18,18 @@ class BotsPage extends Component {
       })
   }
 
-  handleClick=(selectedBot)=>{
+  handleEnlist=(selectedBot)=>{
     console.log('click')
-    if (this.state.selected.find(bot=>bot.id === selectedBot.id))
+    if (this.state.botArmy.find(bot=>bot.id === selectedBot.id))
       return 
     else {
       this.setState({
-        selected: [...this.state.selected,selectedBot]})
+        botArmy: [...this.state.botArmy,selectedBot]})
     }
     
   }
-  handleDelete=(selectedBot)=>{
+  handleDelete=(e,selectedBot)=>{
+    e.stopPropagation();
     fetch(`http://localhost:6001/bots/${selectedBot.id}`,
     {
       method: 'DELETE',
@@ -41,18 +43,34 @@ class BotsPage extends Component {
         data: filteredBots
         })
       })
+      
   }
 
-  handleRemove = (botId) => {
-    this.setState({
-      selected: this.state.selected.filter(s => s.id != botId)
-    })
-  }
+handleRemove = (selected) => {
+  if (this.state.botArmy.find(bot=>bot.id===selected.id)) {
+  this.setState({
+    botArmy: this.state.botArmy.filter(s => s.id != selected.id)
+  })
+}}
+handleSelect=(selected)=>{
+  // console.log({selected})
+  this.setState({
+    selectedBot: selected
+  })
+}
+renderGoBack=()=>{
+  // console.log(this.state.selectedBot)
+  this.setState({
+    selectedBot: null
+  })
+}
 
   render() {
+    // console.log({a1: this.state.selected})
+
     return <div>
-      <YourBotArmy handleRemove={this.handleRemove} selectedBot={this.state.selected} handleClick={this.handleClick} handleDelete={this.handleDelete}/>
-      <BotCollection bots={this.state.data} handleClick={this.handleClick} handleDelete={this.handleDelete}/>)
+      <YourBotArmy handleRemove={this.handleRemove} botArmy={this.state.botArmy}  handleDelete={this.handleDelete} handleClick={this.handleRemove}/>
+      <BotCollection bots={this.state.data} selectedBot={this.state.selectedBot} handleDelete={this.handleDelete} handleClick={this.handleSelect} handleEnlist={this.handleEnlist} renderGoBack={this.renderGoBack}/>)
       </div>;
   }
 }
